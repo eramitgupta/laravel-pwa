@@ -58,6 +58,7 @@ return [
 
 ### Customizing Manifest File
 
+After changing `config/pwa.php` in your `manifest` array, run this command
 You can update your PWA manifest file by running:
 
 ```bash
@@ -78,8 +79,8 @@ Place the `@PwaHead` directive inside the `<head>` tag of your main layout file:
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Your App Title</title>
     @PwaHead <!-- Add this directive to include the PWA meta tags -->
+    <title>Your App Title</title>
 </head>
 <body>
 ```
