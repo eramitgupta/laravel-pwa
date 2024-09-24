@@ -10,6 +10,11 @@ Laravel PWA is a package designed to seamlessly integrate Progressive Web Applic
 - Easy setup and usage
 - Compatible with mobile and desktop devices
 
+Important ⚠️
+
+Note: PWAs require a secure HTTPS connection to work correctly. Ensure your application is hosted with HTTPS; otherwise, service workers and other PWA features will not function as expected.
+
+
 ## Installation 📦
 
 To get started, install the package using Composer:
