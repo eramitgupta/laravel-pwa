@@ -39,6 +39,7 @@ class PWAService
         <!-- PWA scripts -->
         <script src="{$swPath}"></script>
         <script>
+            "use strict";
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("/sw.js").then(
                     (registration) => {
