@@ -50,7 +50,7 @@ This is your main configuration file where you can customize the PWA settings.
 
 ```php
 return [
-    'install-button' => true, // Show or hide install button globally
+    'install-button' => true, // Show or hide the install button globally.
 
     'manifest' => [
         'name' => 'Laravel PWA',
@@ -68,7 +68,7 @@ return [
         ],
     ],
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', false), // Show or hide console.log in the browser globally.
 ];
 ```
 
