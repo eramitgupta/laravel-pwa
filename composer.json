@@ -1,5 +1,5 @@
 {
-    "name": "erag/laravel-pwa",
+    "name": "dkystn/laravel-pwa",
     "description": "A simple and easy-to-use PWA (Progressive Web App) package for Laravel applications.",
     "license": "MIT",
     "keywords": [
@@ -14,8 +14,8 @@
     ],
     "authors": [
         {
-            "name": "Er Amiit Gupta",
-            "email": "info.eramitgupta@gmail.com",
+            "name": "Diky Setiawan",
+            "email": "dikysetiawan652@gmail.com",
             "role": "Developer"
         }
     ],
@@ -30,17 +30,17 @@
             "src/Pwahelpers.php"
         ],
         "psr-4": {
-            "EragLaravelPwa\\": "src/"
+            "Dkystn\\LaravelPwa\\": "src/"
         }
     },
     "prefer-stable": true,
     "extra": {
         "laravel": {
             "providers": [
-                "EragLaravelPwa\\EragLaravelPwaServiceProvider"
+                "Dkystn\\LaravelPwa\\DkystnLaravelPwaServiceProvider"
             ],
             "aliases": {
-                "Pwa": "EragLaravelPwa\\Facades\\Pwa"
+                "Pwa": "Dkystn\\LaravelPwa\\Facades\\Pwa"
             }
         },
         "branch-alias": {
