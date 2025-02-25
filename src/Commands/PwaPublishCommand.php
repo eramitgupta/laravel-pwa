@@ -1,6 +1,6 @@
 <?php
 
-namespace DkystnLaravelPwa\Commands;
+namespace Dkystn\LaravelPwa\Commands;
 
 use Illuminate\Console\Command;
 

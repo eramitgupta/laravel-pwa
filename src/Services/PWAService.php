@@ -1,6 +1,6 @@
 <?php
 
-namespace DkystnLaravelPwa\Services;
+namespace Dkystn\LaravelPwa\Services;
 
 class PWAService
 {

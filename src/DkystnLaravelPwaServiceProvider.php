@@ -2,9 +2,9 @@
 
 namespace Dkystn\LaravelPwa;
 
-use DkystnLaravelPwa\Commands\PWACommand;
-use DkystnLaravelPwa\Commands\PwaPublishCommand;
-use DkystnLaravelPwa\Services\PWAService;
+use Dkystn\LaravelPwa\Commands\PWACommand;
+use Dkystn\LaravelPwa\Commands\PwaPublishCommand;
+use Dkystn\LaravelPwa\Services\PWAService;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -53,11 +53,11 @@ class DkystnLaravelPwaServiceProvider extends ServiceProvider
     {
 
         Blade::directive('PwaHead', function () {
-            return '<?php echo app(\\DkystnLaravelPwa\\Services\\PWAService::class)->headTag(); ?>';
+            return '<?php echo app(\\Dkystn\LaravelPwa\\Services\\PWAService::class)->headTag(); ?>';
         });
 
         Blade::directive('RegisterServiceWorkerScript', function () {
-            return '<?php echo app(\\DkystnLaravelPwa\\Services\\PWAService::class)->registerServiceWorkerScript(); ?>';
+            return '<?php echo app(\\Dkystn\LaravelPwa\\Services\\PWAService::class)->registerServiceWorkerScript(); ?>';
         });
     }
 }
