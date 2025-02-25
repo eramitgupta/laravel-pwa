@@ -1,6 +1,6 @@
 <?php
 
-namespace DkystnLaravelPwa;
+namespace Dkystn\LaravelPwa;
 
 use DkystnLaravelPwa\Commands\PWACommand;
 use DkystnLaravelPwa\Commands\PwaPublishCommand;
