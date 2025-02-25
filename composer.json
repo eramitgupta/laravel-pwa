@@ -42,6 +42,9 @@
             "aliases": {
                 "Pwa": "EragLaravelPwa\\Facades\\Pwa"
             }
+        },
+        "branch-alias": {
+            "dev-main": "1.0-dev"
         }
     }
 }
