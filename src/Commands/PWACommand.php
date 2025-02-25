@@ -1,6 +1,6 @@
 <?php
 
-namespace EragLaravelPwa\Commands;
+namespace DkystnLaravelPwa\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
@@ -13,7 +13,7 @@ class PWACommand extends Command
      *
      * @var string
      */
-    protected $signature = 'erag:pwa-update-manifest';
+    protected $signature = 'Dkystn:pwa-update-manifest';
 
     /**
      * The console command description.

@@ -1,6 +1,6 @@
 <?php
 
-namespace EragLaravelPwa\Commands;
+namespace DkystnLaravelPwa\Commands;
 
 use Illuminate\Console\Command;
 
@@ -11,7 +11,7 @@ class PwaPublishCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'erag:publish-laravel-pwa';
+    protected $signature = 'Dkystn:publish-laravel-pwa';
 
     /**
      * The console command description.
@@ -27,35 +27,35 @@ class PwaPublishCommand extends Command
     {
         // Step 1: Publish the pwa-config
         $this->call('vendor:publish', [
-            '--tag' => 'erag:publish-pwa-config',
+            '--tag' => 'Dkystn:publish-pwa-config',
             '--force' => true,
         ]);
         $this->info('manifest.json file is published ✔');
 
         // Step 2: Publish the manifest
         $this->call('vendor:publish', [
-            '--tag' => 'erag:publish-manifest',
+            '--tag' => 'Dkystn:publish-manifest',
             '--force' => true,
         ]);
         $this->info('manifest.json file is published ✔');
 
         // Step 3: Publish the offline page
         $this->call('vendor:publish', [
-            '--tag' => 'erag:publish-offline',
+            '--tag' => 'Dkystn:publish-offline',
             '--force' => true,
         ]);
         $this->info('offline.html file is published ✔');
 
         // Step 4: Publish the sw js
         $this->call('vendor:publish', [
-            '--tag' => 'erag:publish-sw',
+            '--tag' => 'Dkystn:publish-sw',
             '--force' => true,
         ]);
         $this->info('sw.js file is published ✔');
 
         // Step 5: Publish the logo
         $this->call('vendor:publish', [
-            '--tag' => 'erag:publish-logo',
+            '--tag' => 'Dkystn:publish-logo',
             '--force' => true,
         ]);
         $this->info('logo is published ✔');

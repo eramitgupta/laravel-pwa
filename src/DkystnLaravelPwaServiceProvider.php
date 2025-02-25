@@ -1,14 +1,14 @@
 <?php
 
-namespace EragLaravelPwa;
+namespace DkystnLaravelPwa;
 
-use EragLaravelPwa\Commands\PWACommand;
-use EragLaravelPwa\Commands\PwaPublishCommand;
-use EragLaravelPwa\Services\PWAService;
+use DkystnLaravelPwa\Commands\PWACommand;
+use DkystnLaravelPwa\Commands\PwaPublishCommand;
+use DkystnLaravelPwa\Services\PWAService;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-class EragLaravelPwaServiceProvider extends ServiceProvider
+class DkystnLaravelPwaServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -26,23 +26,23 @@ class EragLaravelPwaServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/Stubs/pwa.stub' => config_path('pwa.php'),
-        ], 'erag:publish-pwa-config');
+        ], 'Dkystn:publish-pwa-config');
 
         $this->publishes([
             __DIR__.'/Stubs/manifest.stub' => public_path('manifest.json'),
-        ], 'erag:publish-manifest');
+        ], 'Dkystn:publish-manifest');
 
         $this->publishes([
             __DIR__.'/Stubs/offline.stub' => public_path('offline.html'),
-        ], 'erag:publish-offline');
+        ], 'Dkystn:publish-offline');
 
         $this->publishes([
             __DIR__.'/Stubs/sw.stub' => public_path('sw.js'),
-        ], 'erag:publish-sw');
+        ], 'Dkystn:publish-sw');
 
         $this->publishes([
             __DIR__.'/Stubs/logo.png' => public_path('logo.png'),
-        ], 'erag:publish-logo');
+        ], 'Dkystn:publish-logo');
 
     }
 
@@ -53,11 +53,11 @@ class EragLaravelPwaServiceProvider extends ServiceProvider
     {
 
         Blade::directive('PwaHead', function () {
-            return '<?php echo app(\\EragLaravelPwa\\Services\\PWAService::class)->headTag(); ?>';
+            return '<?php echo app(\\DkystnLaravelPwa\\Services\\PWAService::class)->headTag(); ?>';
         });
 
         Blade::directive('RegisterServiceWorkerScript', function () {
-            return '<?php echo app(\\EragLaravelPwa\\Services\\PWAService::class)->registerServiceWorkerScript(); ?>';
+            return '<?php echo app(\\DkystnLaravelPwa\\Services\\PWAService::class)->registerServiceWorkerScript(); ?>';
         });
     }
 }
