@@ -78,7 +78,7 @@ After changing `config/pwa.php` in your `manifest` array, run this command
 You can update your PWA manifest file by running:
 
 ```bash
-php artisan erag:pwa-update-manifest
+php artisan erag:update-manifest
 ```
 
 This command updates the `manifest.json` file located in the public directory of your Laravel project.

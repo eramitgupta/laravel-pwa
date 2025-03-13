@@ -13,7 +13,7 @@ class PWACommand extends Command
      *
      * @var string
      */
-    protected $signature = 'erag:pwa-update-manifest';
+    protected $signature = 'erag:update-manifest';
 
     /**
      * The console command description.
