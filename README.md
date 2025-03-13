@@ -37,7 +37,7 @@ composer require erag/laravel-pwa
 Once installed, publish the PWA configuration files using:
 
 ```bash
-php artisan erag:publish-laravel-pwa
+php artisan erag:install-pwa
 ```
 
 This will create the required configuration file `config/pwa.php` and set up PWA functionality for your application.

@@ -11,7 +11,7 @@ class PwaPublishCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'erag:publish-laravel-pwa';
+    protected $signature = 'erag:install-pwa';
 
     /**
      * The console command description.
