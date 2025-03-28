@@ -119,11 +119,19 @@ Your Laravel PWA is now configured to update the logo dynamically! 🚀
 
 #### 1. **Create a Controller Method**
 
-**Input Key Name:** `logo`
+**Input Key Name:** `logo` 
+
 Make sure the image is in PNG format, at least 512x512 pixels, and does not exceed 1024 KB in size.
 
 ```html
 <input type="file" name="logo" accept=".png">
+```
+
+
+```php
+array:2 [▼ // EragLaravelPwa/src/Core/PWA.php:19
+  "_token" => "iKbZh21VsYZMpNd9TN12Ul5SoysQzkMXlQkhB5Ub"
+  "logo" => Illuminate\Http\UploadedFile{#1426 ▶}]
 ```
 
 ```php
@@ -147,15 +155,7 @@ class SettingsController extends Controller
     }
 }
 ```
-
-```php
-array:2 [▼ // EragLaravelPwa/src/Core/PWA.php:19
-  "_token" => "iKbZh21VsYZMpNd9TN12Ul5SoysQzkMXlQkhB5Ub"
-  "logo" => Illuminate\Http\UploadedFile{#1426 ▶}]
-```
-
 Once uploaded, the new logo will be available at `http://yourdomain.com/logo.png`.
-
 
 ## Screenshots 📸
 
