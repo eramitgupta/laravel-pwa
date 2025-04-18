@@ -16,7 +16,7 @@
 If you discover a security vulnerability in this Laravel PWA package:
 
 - **Do not open a public issue or pull request.**
-- Instead, please email us directly at: `eramitgupta@gmail.com`
+- Instead, please email us directly at: `info.eramitgupta@gmail.com`
 
 We will respond as quickly as possible and take appropriate action.
 
