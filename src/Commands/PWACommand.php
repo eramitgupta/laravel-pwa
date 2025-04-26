@@ -2,12 +2,17 @@
 
 namespace EragLaravelPwa\Commands;
 
+use EragLaravelPwa\Services\PWAService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
 
 class PWACommand extends Command
 {
+    public function __construct(protected PWAService $pwaService)
+    {
+        parent::__construct();
+    }
+
     /**
      * The name and signature of the console command.
      *
@@ -53,31 +58,12 @@ class PWACommand extends Command
                 return;
             }
 
-            unset($manifest['start_url']);
-            $icons = $manifest['icons'];
-            unset($manifest['icons']);
-
-            $arrayMergeManifest = array_merge($manifest, ['start_url' => '/'], ['icons' => $icons]);
-
-            $jsonData = json_encode($arrayMergeManifest, JSON_PRETTY_PRINT);
-            if ($jsonData === false) {
-                $this->error('Failed to encode manifest array to JSON. Aborting operation.');
-
-                return;
+            if ($this->pwaService->createOrUpdate($manifest)) {
+                $this->info('Manifest JSON updated successfully ✔');
             }
 
-            $jsonData = str_replace('\/', '/', $jsonData);
+            $this->info('Failed to write the manifest file.');
 
-            $filePath = public_path('manifest.json');
-            if (! File::isWritable(public_path())) {
-                $this->error('Public directory is not writable. Check file permissions.');
-
-                return;
-            }
-
-            File::put($filePath, $jsonData);
-
-            $this->info('Manifest JSON updated successfully ✔');
         } catch (\Exception $e) {
             // Catch any errors and display an error message
             $this->error('An error occurred while updating the manifest: '.$e->getMessage());

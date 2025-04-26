@@ -59,5 +59,10 @@ class EragLaravelPwaServiceProvider extends ServiceProvider
         Blade::directive('RegisterServiceWorkerScript', function () {
             return '<?php echo app(\\EragLaravelPwa\\Services\\PWAService::class)->registerServiceWorkerScript(); ?>';
         });
+
+        if (class_exists('Illuminate\Foundation\AliasLoader')) {
+            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+            $loader->alias('PWA', \EragLaravelPwa\Facades\PWA::class);
+        }
     }
 }

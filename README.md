@@ -81,6 +81,35 @@ You can update your PWA manifest file by running:
 php artisan erag:update-manifest
 ```
 
+## Facade Usage 🎯
+
+You can easily update the manifest dynamically at runtime using the provided `PWA` Facade.
+
+```php
+use EragLaravelPwa\Facades\PWA;
+
+PWA::update([
+    'name' => 'Laravel Apps',
+    'short_name' => 'LA',
+    'background_color' => '#6777ef',
+    'display' => 'fullscreen',
+    'description' => 'A Progressive Web Application setup for Laravel projects.',
+    'theme_color' => '#6777ef',
+    'icons' => [
+        [
+            'src' => 'logo.png',
+            'sizes' => '512x512',
+            'type' => 'image/png',
+        ],
+    ],
+]);
+```
+
+- This will immediately update your `manifest.json` file in the public directory.
+- You can call this from a controller, job, or anywhere inside your Laravel project where you need to update PWA settings dynamically.
+
+✅ Make sure `public/` folder is writable to allow manifest updates!
+
 This command updates the `manifest.json` file located in the public directory of your Laravel project.
 
 ## Usage 🛠️

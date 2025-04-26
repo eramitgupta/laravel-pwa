@@ -2,6 +2,8 @@
 
 namespace EragLaravelPwa\Services;
 
+use Illuminate\Support\Facades\File;
+
 class PWAService
 {
     public function HeadTag(): string
@@ -91,5 +93,47 @@ class PWAService
         }
 
         return '';
+    }
+
+    public function createOrUpdate(array $manifest): bool
+    {
+        unset($manifest['start_url']);
+        $icons = $manifest['icons'];
+        unset($manifest['icons']);
+
+        $arrayMergeManifest = array_merge($manifest, ['start_url' => '/'], ['icons' => $icons]);
+
+        $jsonData = json_encode($arrayMergeManifest, JSON_PRETTY_PRINT);
+        if ($jsonData === false) {
+            $this->error('Failed to encode manifest array to JSON. Aborting operation.');
+
+            return false;
+        }
+
+        $jsonData = str_replace('\/', '/', $jsonData);
+
+        $filePath = public_path('manifest.json');
+        if (! File::isWritable(public_path())) {
+            $this->error('Public directory is not writable. Check file permissions.');
+
+            return false;
+        }
+
+        File::put($filePath, $jsonData);
+
+        return true;
+    }
+
+    public function update(array $manifestData): bool
+    {
+        try {
+            if ($this->createOrUpdate($manifestData)) {
+                return true;
+            }
+
+            return false;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
