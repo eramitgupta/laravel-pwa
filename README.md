@@ -34,6 +34,33 @@ To get started, install the package using Composer:
 composer require erag/laravel-pwa
 ```
 
+## Register the Service Provider
+
+### For Laravel (Optional) v11.x, v12.x
+
+Ensure the service provider is registered in your `/bootstrap/providers.php` file:
+
+```php
+use EragLaravelPwa\EragLaravelPwaServiceProvider;
+
+
+return [
+    // ...
+    EragLaravelPwaServiceProvider::class,
+];
+```
+
+### For Laravel v8.x, v9.x, v10.x
+
+Ensure the service provider is registered in your `config/app.php` file:
+
+```php
+'providers' => [
+    // ...
+    EragLaravelPwa\EragLaravelPwaServiceProvider::class,
+],
+```
+
 Once installed, publish the PWA configuration files using:
 
 ```bash
