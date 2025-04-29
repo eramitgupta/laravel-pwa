@@ -108,6 +108,36 @@ You can update your PWA manifest file by running:
 php artisan erag:update-manifest
 ```
 
+## Usage 🛠️
+
+To integrate PWA functionality into your layouts, use the provided Blade directives.
+
+### 1. **Add Meta Tags**
+
+Place the `@PwaHead` directive inside the `<head>` tag of your main layout file:
+
+```blade
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @PwaHead <!-- Add this directive to include the PWA meta tags -->
+    <title>Your App Title</title>
+</head>
+<body>
+```
+
+### 2. **Register Service Worker**
+
+Just before the closing `</body>` tag in your main layout file, add:
+
+```blade
+    @RegisterServiceWorkerScript <!-- This registers the service worker -->
+</body>
+</html>
+```
+These directives will automatically generate the necessary tags and JavaScript for the PWA.
+
+
 ## Facade Usage 🎯
 
 You can easily update the manifest dynamically at runtime using the provided `PWA` Facade.
@@ -139,34 +169,6 @@ PWA::update([
 
 This command updates the `manifest.json` file located in the public directory of your Laravel project.
 
-## Usage 🛠️
-
-To integrate PWA functionality into your layouts, use the provided Blade directives.
-
-### 1. **Add Meta Tags**
-
-Place the `@PwaHead` directive inside the `<head>` tag of your main layout file:
-
-```blade
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    @PwaHead <!-- Add this directive to include the PWA meta tags -->
-    <title>Your App Title</title>
-</head>
-<body>
-```
-
-### 2. **Register Service Worker**
-
-Just before the closing `</body>` tag in your main layout file, add:
-
-```blade
-    @RegisterServiceWorkerScript <!-- This registers the service worker -->
-</body>
-</html>
-```
-These directives will automatically generate the necessary tags and JavaScript for the PWA.
 
 
 ## Uploading a Logo via PWA 🌟
