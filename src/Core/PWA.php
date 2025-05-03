@@ -3,6 +3,7 @@
 namespace EragLaravelPwa\Core;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Validation\ValidationException;
 
 class PWA
@@ -19,8 +20,8 @@ class PWA
 
             $destinationPath = public_path('logo.png');
 
-            if (file_exists($destinationPath)) {
-                unlink($destinationPath);
+            if (File::exists($destinationPath)) {
+                File::delete($destinationPath);
             }
 
             $request->file('logo')->move(public_path(), 'logo.png');
