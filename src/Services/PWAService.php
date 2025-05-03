@@ -119,6 +119,10 @@ class PWAService
             return false;
         }
 
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+        }
+
         File::put($filePath, $jsonData);
 
         return true;
