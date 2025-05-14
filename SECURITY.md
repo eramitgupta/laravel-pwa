@@ -7,9 +7,7 @@
 | Laravel 12     | ✅        |
 | Laravel 11     | ✅        |
 | Laravel 10     | ✅        |
-| Laravel 9      | ✅        |
-| Laravel 8      | ✅        |
-| < 8            | ❌        |
+| < 10           | ❌        |
 
 ## Reporting a Vulnerability
 
