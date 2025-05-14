@@ -17,7 +17,7 @@ Laravel PWA is a package designed to seamlessly integrate Progressive Web Applic
 
 - Automatically generate PWA manifest and service worker
 - Configurable installation button
-- Supports Laravel 8, 9, 10, 11 And 12 
+- Supports Laravel 10, 11 And 12 
 - Easy setup and usage
 - Compatible with mobile and desktop devices
 
@@ -50,7 +50,7 @@ return [
 ];
 ```
 
-### For Laravel v8.x, v9.x, v10.x
+### For Laravel v10.x
 
 Ensure the service provider is registered in your `config/app.php` file:
 
