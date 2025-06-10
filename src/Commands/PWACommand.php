@@ -40,6 +40,7 @@ class PWACommand extends Command
 
             if (empty($manifest['icons'])) {
                 $this->error('⚠️  Manifest is missing icons. Operation aborted.');
+
                 return;
             }
 
