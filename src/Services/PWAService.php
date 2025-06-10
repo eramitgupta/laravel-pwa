@@ -40,7 +40,6 @@ class PWAService
 
         $isLivewire = config('pwa.livewire-app', false) ? 'data-navigate-once' : '';
 
-
         return <<<HTML
         {$installApp}
         <!-- PWA scripts -->

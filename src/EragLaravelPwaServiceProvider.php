@@ -26,19 +26,19 @@ class EragLaravelPwaServiceProvider extends ServiceProvider
         ], 'erag:publish-pwa-config');
 
         $this->publishes([
-            __DIR__ . '/../resources/manifest.json' => public_path('manifest.json'),
+            __DIR__.'/../resources/manifest.json' => public_path('manifest.json'),
         ], 'erag:publish-manifest');
 
         $this->publishes([
-            __DIR__ . '/../resources/offline.html' => public_path('offline.html'),
+            __DIR__.'/../resources/offline.html' => public_path('offline.html'),
         ], 'erag:publish-offline');
 
         $this->publishes([
-            __DIR__ . '/../resources/sw.js' => public_path('sw.js'),
+            __DIR__.'/../resources/sw.js' => public_path('sw.js'),
         ], 'erag:publish-sw');
 
         $this->publishes([
-            __DIR__ . '/../resources/logo.png' => public_path('logo.png'),
+            __DIR__.'/../resources/logo.png' => public_path('logo.png'),
         ], 'erag:publish-logo');
 
     }
