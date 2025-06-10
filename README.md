@@ -284,3 +284,4 @@ Here’s a simple example of how to use this package:
 5. Customize the `config/pwa.php` to fit your project’s needs.
 6. Run `php artisan erag:pwa-update-manifest` to update the manifest file.
 7. That's it! Your Laravel app is now PWA-enabled. 🚀
+
