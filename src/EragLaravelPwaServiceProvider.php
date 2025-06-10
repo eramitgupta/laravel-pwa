@@ -10,9 +10,6 @@ use Illuminate\Support\ServiceProvider;
 
 class EragLaravelPwaServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     */
     public function register(): void
     {
         $this->app->singleton(PWAService::class, function ($app) {
@@ -25,23 +22,23 @@ class EragLaravelPwaServiceProvider extends ServiceProvider
         ]);
 
         $this->publishes([
-            __DIR__.'/Stubs/pwa.stub' => config_path('pwa.php'),
+            __DIR__.'/../config/pwa.php' => config_path('pwa.php'),
         ], 'erag:publish-pwa-config');
 
         $this->publishes([
-            __DIR__.'/Stubs/manifest.stub' => public_path('manifest.json'),
+            __DIR__ . '/../resources/manifest.json' => public_path('manifest.json'),
         ], 'erag:publish-manifest');
 
         $this->publishes([
-            __DIR__.'/Stubs/offline.stub' => public_path('offline.html'),
+            __DIR__ . '/../resources/offline.html' => public_path('offline.html'),
         ], 'erag:publish-offline');
 
         $this->publishes([
-            __DIR__.'/Stubs/sw.stub' => public_path('sw.js'),
+            __DIR__ . '/../resources/sw.js' => public_path('sw.js'),
         ], 'erag:publish-sw');
 
         $this->publishes([
-            __DIR__.'/Stubs/logo.png' => public_path('logo.png'),
+            __DIR__ . '/../resources/logo.png' => public_path('logo.png'),
         ], 'erag:publish-logo');
 
     }
