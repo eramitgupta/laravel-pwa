@@ -8,28 +8,15 @@ use Illuminate\Support\Facades\Config;
 
 class PWACommand extends Command
 {
+    protected $signature = 'erag:update-manifest';
+
+    protected $description = 'Update the manifest.json file for the PWA.';
+
     public function __construct(protected PWAService $pwaService)
     {
         parent::__construct();
     }
 
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'erag:update-manifest';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Update the manifest.json file for the PWA.';
-
-    /**
-     * Execute the console command.
-     */
     public function handle(): void
     {
         try {
@@ -49,24 +36,22 @@ class PWACommand extends Command
                 ],
             ];
 
-            // Load custom manifest from config, fallback to default
             $manifest = Config::get('pwa.manifest', $defaultManifest);
 
             if (empty($manifest['icons'])) {
-                $this->error('Manifest is missing icons. Aborting operation.');
-
+                $this->error('⚠️  Manifest is missing icons. Operation aborted.');
                 return;
             }
 
-            if ($this->pwaService->createOrUpdate($manifest)) {
-                $this->info('Manifest JSON updated successfully ✔');
+            $updated = $this->pwaService->createOrUpdate($manifest);
+
+            if ($updated) {
+                $this->info('✅ Manifest JSON updated successfully.');
+            } else {
+                $this->warn('⚠️  Manifest file was not updated.');
             }
-
-            $this->info('Failed to write the manifest file.');
-
-        } catch (\Exception $e) {
-            // Catch any errors and display an error message
-            $this->error('An error occurred while updating the manifest: '.$e->getMessage());
+        } catch (\Throwable $e) {
+            $this->error('❌ An error occurred while updating the manifest: '.$e->getMessage());
         }
     }
 }
