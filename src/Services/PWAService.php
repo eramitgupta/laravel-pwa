@@ -29,18 +29,23 @@ class PWAService
     {
         $swPath = asset('/sw.js');
         $isDebug = config('pwa.debug', false);
+
         $consoleLog = $isDebug ? 'console.log' : '//';
         $icon = asset(config('pwa.manifest.icons.src', 'logo.png'));
+
         $installButton = config('pwa.install-button', false);
 
         $installApp = self::getInstallAppHtml($installButton, $icon);
         $installButtonJs = $installButton ? self::installButtonJs() : '';
 
+        $isLivewire = config('pwa.livewire-app', false) ? 'data-navigate-once' : '';
+
+
         return <<<HTML
         {$installApp}
         <!-- PWA scripts -->
-        <script src="{$swPath}"></script>
-        <script>
+        <script {$isLivewire} src="{$swPath}"></script>
+        <script {$isLivewire}>
             "use strict";
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("/sw.js").then(

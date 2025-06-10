@@ -43,4 +43,13 @@ return [
 
     'debug' => env('APP_DEBUG', false),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Livewire Integration
+    |--------------------------------------------------------------------------
+    | Set to true if you're using Livewire in your application to enable
+    | Livewire-specific PWA optimizations or features.
+    */
+
+    'livewire-app' => false,
 ];
