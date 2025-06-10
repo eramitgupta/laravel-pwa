@@ -1,4 +1,4 @@
-# PWA Easy Setup for Laravel (With Vue.js and React.js)
+# PWA Easy Setup for Laravel - Livewire, Vue.js & React.js
 
 <center>
     <img width="956" alt="Screenshot 2024-10-04 at 10 34 23 PM" src="https://github.com/user-attachments/assets/2b187de0-d5cc-4871-9c5d-ce0ffbb5a26c">
@@ -17,14 +17,15 @@ Laravel PWA is a package designed to seamlessly integrate Progressive Web Applic
 
 ## ✨ Features 🚀
 
-* ⚙️ **Auto-generation** of PWA manifest and service worker
-* 🧩 **Configurable "Add to Home Screen"** installation button
-* 🔄 **Supports Laravel versions** 8, 9, 10, 11, and 12
-* ⚡ **Quick setup** with minimal configuration
-* 📱🖥️ **Compatible with both mobile and desktop devices**
-* 🛠️ **Customizable manifest settings** via `config/pwa.php`
-* 🧑‍💻 **Blade directives** for seamless integration
-* 🔐 **HTTPS support** to ensure secure PWA functionality
+* ⚙️ **Auto-generate** PWA manifest and service worker files
+* 🧩 **Configurable "Add to Home Screen"** install prompt with one-click integration
+* 🔄 **Supports Laravel versions** 8.x to 12.x out of the box
+* ⚡ **Quick setup** with minimal configuration required
+* 📱🖥️ **Fully responsive** — works on both mobile and desktop browsers
+* 🛠️ **Customizable via `config/pwa.php`** — control icons, theme color, name, and more
+* 🧑‍💻 **Blade directives included** for effortless frontend usage
+* 🔐 **HTTPS ready** — ensures secure and reliable PWA experience
+* 🌐 **Compatible with Blade, Livewire, Vue 3, and React**
 
 ---
 
@@ -103,6 +104,9 @@ return [
     ],
 
     'debug' => env('APP_DEBUG', false), // Show or hide console.log in the browser globally.
+    
+    
+    'livewire-app' => false,
 ];
 ```
 
