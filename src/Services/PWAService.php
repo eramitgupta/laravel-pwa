@@ -101,11 +101,11 @@ class PWAService
 
     public function createOrUpdate(array $manifest): bool
     {
-        unset($manifest['start_url']);
+        $start_url = isset($manifest['start_url']) ? $manifest['start_url'] : '/';
         $icons = $manifest['icons'];
         unset($manifest['icons']);
 
-        $arrayMergeManifest = array_merge($manifest, ['start_url' => '/'], ['icons' => $icons]);
+        $arrayMergeManifest = array_merge($manifest, ['start_url' => $start_url], ['icons' => $icons]);
 
         $jsonData = json_encode($arrayMergeManifest, JSON_PRETTY_PRINT);
         if ($jsonData === false) {
