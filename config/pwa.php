@@ -15,7 +15,7 @@ return [
     |--------------------------------------------------------------------------
     | PWA Manifest Configuration
     |--------------------------------------------------------------------------
-    |  php artisan erag:pwa-update-manifest
+    |  php artisan erag:update-manifest
     */
 
     'manifest' => [
