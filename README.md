@@ -1,8 +1,7 @@
 # PWA Easy Setup for Laravel - Livewire, Vue.js & React.js
 
-
 <center>
-    <img width="956" alt="Screenshot 2024-10-04 at 10 34 23 PM" src="https://github.com/user-attachments/assets/2b187de0-d5cc-4871-9c5d-ce0ffbb5a26c">
+    <img width="956" alt="Screenshot 2024-10-04 at 10 34 23 PM" src="https://github.com/user-attachments/assets/d28879ad-84ef-4886-b454-cf10e53cddd9">
 </center>
 <div align="center">
 
