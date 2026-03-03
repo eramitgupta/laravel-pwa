@@ -3,6 +3,7 @@
 namespace EragLaravelPwa\Services;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Vite;
 
 class PWAService
 {
@@ -39,12 +40,13 @@ class PWAService
         $installButtonJs = $installButton ? self::installButtonJs() : '';
 
         $isLivewire = config('pwa.livewire-app', false) ? 'data-navigate-once' : '';
+        $isCSP = (config('pwa.vite-csp', false) && ($csp = Vite::cspNonce())) ? 'nonce="' . $csp . '"' : '';
 
         return <<<HTML
         {$installApp}
         <!-- PWA scripts -->
-        <script {$isLivewire} src="{$swPath}"></script>
-        <script {$isLivewire}>
+        <script {$isCSP} {$isLivewire} src="{$swPath}"></script>
+        <script {$isCSP} {$isLivewire}>
             "use strict";
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("/sw.js").then(

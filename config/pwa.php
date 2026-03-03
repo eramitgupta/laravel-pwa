@@ -52,4 +52,15 @@ return [
     */
 
     'livewire-app' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Vite Content Security Policy (CSP) Integration
+    |--------------------------------------------------------------------------
+    | Set to true if you want to enable Content Security Policy (CSP) for your
+    | PWA. This helps in enhancing the security of your application by
+    | specifying which sources are allowed to be loaded.
+    */
+
+    'vite-csp' => false,
 ];
