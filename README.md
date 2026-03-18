@@ -19,7 +19,7 @@ Laravel PWA is a package designed to seamlessly integrate Progressive Web Applic
 
 * ⚙️ **Auto-generate** PWA manifest and service worker files
 * 🧩 **Configurable "Add to Home Screen"** install prompt with one-click integration
-* 🔄 **Supports Laravel versions** 8.x to 12.x out of the box
+* 🔄 **Supports Laravel versions** 8.x to 13.x out of the box
 * ⚡ **Quick setup** with minimal configuration required
 * 📱🖥️ **Fully responsive** — works on both mobile and desktop browsers
 * 🛠️ **Customizable via `config/pwa.php`** — control icons, theme color, name, and more
@@ -44,7 +44,7 @@ composer require erag/laravel-pwa
 
 ## Register the Service Provider
 
-### For Laravel (Optional) v11.x, v12.x
+### For Laravel (Optional) v11.x, v12.x, v13.x
 
 Ensure the service provider is registered in your `/bootstrap/providers.php` file:
 
