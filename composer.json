@@ -1,4 +1,5 @@
 {
+    "$schema": "https://getcomposer.org/schema.json",
     "name": "erag/laravel-pwa",
     "description": "A simple and easy-to-use PWA (Progressive Web App) package for Laravel applications.",
     "license": "MIT",
