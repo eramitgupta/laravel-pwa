@@ -4,7 +4,9 @@ namespace EragLaravelPwa;
 
 use EragLaravelPwa\Commands\PWACommand;
 use EragLaravelPwa\Commands\PwaPublishCommand;
+use EragLaravelPwa\Facades\PWA;
 use EragLaravelPwa\Services\PWAService;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -58,8 +60,8 @@ class EragLaravelPwaServiceProvider extends ServiceProvider
         });
 
         if (class_exists('Illuminate\Foundation\AliasLoader')) {
-            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-            $loader->alias('PWA', \EragLaravelPwa\Facades\PWA::class);
+            $loader = AliasLoader::getInstance();
+            $loader->alias('PWA', PWA::class);
         }
     }
 }

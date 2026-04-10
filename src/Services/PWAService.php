@@ -3,6 +3,7 @@
 namespace EragLaravelPwa\Services;
 
 use Illuminate\Support\Facades\File;
+use RuntimeException;
 
 class PWAService
 {
@@ -10,7 +11,8 @@ class PWAService
     {
         $manifest = asset('/manifest.json');
         $themeColor = config('pwa.manifest.theme_color', '#6777ef');
-        $icon = asset(config('pwa.manifest.icons.src', 'logo.png'));
+        $appName = e(config('pwa.manifest.name', config('app.name', 'Laravel PWA')));
+        $icon = asset($this->getPrimaryIconPath());
         $installButton = config('pwa.install-button', false);
 
         $style = self::getInstallButtonStyle($installButton);
@@ -18,6 +20,10 @@ class PWAService
         return <<<HTML
         <!-- PWA  -->
         <meta name="theme-color" content="{$themeColor}"/>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="apple-mobile-web-app-title" content="{$appName}">
+        <meta name="mobile-web-app-capable" content="yes">
         <link rel="apple-touch-icon" href="{$icon}">
         <link rel="manifest" href="{$manifest}">
         <!-- PWA end -->
@@ -31,7 +37,7 @@ class PWAService
         $isDebug = config('pwa.debug', false);
 
         $consoleLog = $isDebug ? 'console.log' : '//';
-        $icon = asset(config('pwa.manifest.icons.src', 'logo.png'));
+        $icon = asset($this->getPrimaryIconPath());
 
         $installButton = config('pwa.install-button', false);
 
@@ -43,11 +49,10 @@ class PWAService
         return <<<HTML
         {$installApp}
         <!-- PWA scripts -->
-        <script {$isLivewire} src="{$swPath}"></script>
         <script {$isLivewire}>
             "use strict";
             if ("serviceWorker" in navigator) {
-                navigator.serviceWorker.register("/sw.js").then(
+                navigator.serviceWorker.register("{$swPath}", { scope: "/" }).then(
                     (registration) => {
                         {$consoleLog}("Service worker registration succeeded:");
                     },
@@ -67,7 +72,7 @@ class PWAService
     private static function installButtonJs(): string
     {
         return <<<'HTML'
-            let deferredPrompt;function showInstallPromotion(){document.getElementById("install-prompt").style.display="block"}window.addEventListener("load",(()=>{if(window.matchMedia("(display-mode: standalone)").matches){document.getElementById("install-prompt").style.display="none"}})),window.addEventListener("beforeinstallprompt",(e=>{e.preventDefault(),deferredPrompt=e,showInstallPromotion();document.getElementById("install-button").addEventListener("click",(()=>{deferredPrompt.prompt(),deferredPrompt.userChoice.then((e=>{deferredPrompt=null}))}))})),window.addEventListener("appinstalled",(()=>{document.getElementById("install-prompt").style.display="none"}));
+            const installPrompt=document.getElementById("install-prompt");const installButton=document.getElementById("install-button");if(installPrompt&&installButton){let deferredPrompt;const isStandalone=()=>window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;const isIos=()=>/iphone|ipad|ipod/i.test(window.navigator.userAgent);const isSafari=()=>{const ua=window.navigator.userAgent.toLowerCase();return ua.includes("safari")&&!ua.includes("chrome")&&!ua.includes("android")};const showInstallPromotion=()=>{installPrompt.style.display="block";installPrompt.setAttribute("data-mode","install")};const showIosInstructions=()=>{installPrompt.style.display="block";installPrompt.setAttribute("data-mode","ios")};window.addEventListener("load",()=>{if(isStandalone()){installPrompt.style.display="none";return}if(isIos()&&isSafari()){showIosInstructions()}});window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;showInstallPromotion()});installButton.addEventListener("click",()=>{if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.finally(()=>{deferredPrompt=null})}else if(isIos()&&isSafari()&&!isStandalone()){showIosInstructions()}});window.addEventListener("appinstalled",()=>{installPrompt.style.display="none"})}
         HTML;
     }
 
@@ -76,7 +81,7 @@ class PWAService
         if ($installButton) {
             return <<<'HTML'
                 <style>
-                    .box-icon{position:fixed;bottom:100px;right:100px}.box-icon .circle{cursor:pointer;width:60px;height:60px;background-color:rgba(255,150,35,0.2);border-radius:100%;position:absolute;top:-10px;left:-10px;transition:transform ease-out 0.1s,background 0.2s}.box-icon .circle:after{position:absolute;width:100%;height:100%;border-radius:50%;content:'';top:0;left:0;z-index:-1;animation:shadow-pulse 1s infinite;box-shadow:0 0 0 0 rgb(193 54 1 / 40%)}@keyframes shadow-pulse{0%{box-shadow:0 0 0 0 rgb(240,240,240)}100%{box-shadow:0 0 0 35px rgba(0,0,0,0)}}@keyframes shadow-pulse-big{0%{box-shadow:0 0 0 0 rgb(240,240,240)}100%{box-shadow:0 0 0 70px rgba(0,0,0,0)}}
+                    .box-icon{position:fixed;bottom:24px;right:24px;z-index:2147483647;max-width:min(320px,calc(100vw - 32px))}.box-icon .circle{cursor:pointer;width:60px;height:60px;background-color:transparent;border:0;border-radius:100%;position:relative;display:flex;align-items:center;justify-content:center;padding:0;transition:transform ease-out .1s,background .2s}.box-icon .circle img{max-width:30px;max-height:30px}.box-icon .circle:after{position:absolute;width:100%;height:100%;border-radius:50%;content:'';top:0;left:0;z-index:-1;animation:shadow-pulse 1s infinite;box-shadow:0 0 0 0 rgb(193 54 1 / 40%)}.box-icon .ios-tip{display:none;margin-top:12px;padding:12px 14px;border-radius:12px;background:#fff;color:#111;font-size:13px;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.12)}.box-icon[data-mode="ios"] .ios-tip{display:block}.box-icon[data-mode="install"] .ios-tip{display:none}@media (max-width:640px){.box-icon{bottom:16px;right:16px;max-width:calc(100vw - 24px)}.box-icon .circle{width:56px;height:56px}}@keyframes shadow-pulse{0%{box-shadow:0 0 0 0 rgb(240,240,240)}100%{box-shadow:0 0 0 35px rgba(0,0,0,0)}}@keyframes shadow-pulse-big{0%{box-shadow:0 0 0 0 rgb(240,240,240)}100%{box-shadow:0 0 0 70px rgba(0,0,0,0)}}
                 </style>
             HTML;
         }
@@ -88,15 +93,27 @@ class PWAService
     {
         if ($installButton) {
             return <<<HTML
-                <div id="install-prompt" class="box-icon" style="display: none;">
-                    <span id="install-button" class="circle">
+                <div id="install-prompt" class="box-icon" style="display: none;" data-mode="install">
+                    <button id="install-button" class="circle" type="button" aria-label="Install app">
                         <img src="{$icon}" alt="Install App">
-                    </span>
+                    </button>
+                    <div class="ios-tip">To install on iPhone or iPad, tap Share in Safari, then choose Add to Home Screen.</div>
                 </div>
             HTML;
         }
 
         return '';
+    }
+
+    private function getPrimaryIconPath(): string
+    {
+        $icons = config('pwa.manifest.icons', []);
+
+        if (is_array($icons) && isset($icons[0]['src']) && is_string($icons[0]['src']) && $icons[0]['src'] !== '') {
+            return ltrim($icons[0]['src'], '/');
+        }
+
+        return 'logo.png';
     }
 
     public function createOrUpdate(array $manifest): bool
@@ -109,18 +126,14 @@ class PWAService
 
         $jsonData = json_encode($arrayMergeManifest, JSON_PRETTY_PRINT);
         if ($jsonData === false) {
-            $this->error('Failed to encode manifest array to JSON. Aborting operation.');
-
-            return false;
+            throw new RuntimeException('Failed to encode manifest array to JSON. Aborting operation.');
         }
 
         $jsonData = str_replace('\/', '/', $jsonData);
 
         $filePath = public_path('manifest.json');
         if (! File::isWritable(public_path())) {
-            $this->error('Public directory is not writable. Check file permissions.');
-
-            return false;
+            throw new RuntimeException('Public directory is not writable. Check file permissions.');
         }
 
         if (File::exists($filePath)) {
