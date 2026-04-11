@@ -40,7 +40,7 @@
                 "EragLaravelPwa\\EragLaravelPwaServiceProvider"
             ],
             "aliases": {
-                "Pwa": "EragLaravelPwa\\Facades\\Pwa"
+                "PWA": "EragLaravelPwa\\Facades\\PWA"
             }
         }
     }

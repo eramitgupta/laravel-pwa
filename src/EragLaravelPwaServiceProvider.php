@@ -14,9 +14,11 @@ class EragLaravelPwaServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(PWAService::class, function ($app) {
+        $this->app->singleton(PWAService::class, function () {
             return new PWAService;
         });
+
+        $this->app->alias(PWAService::class, 'pwa');
 
         $this->commands([
             PwaPublishCommand::class,
@@ -59,9 +61,8 @@ class EragLaravelPwaServiceProvider extends ServiceProvider
             return '<?php echo app(\\EragLaravelPwa\\Services\\PWAService::class)->registerServiceWorkerScript(); ?>';
         });
 
-        if (class_exists('Illuminate\Foundation\AliasLoader')) {
-            $loader = AliasLoader::getInstance();
-            $loader->alias('PWA', PWA::class);
+        if (class_exists(AliasLoader::class)) {
+            AliasLoader::getInstance()->alias('PWA', PWA::class);
         }
     }
 }
