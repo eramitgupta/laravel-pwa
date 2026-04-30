@@ -7,6 +7,7 @@
 
 [![Packagist License](https://img.shields.io/badge/Licence-MIT-blue)](https://github.com/eramitgupta/laravel-pwa/blob/main/LICENSE)
 [![Latest Stable Version](https://img.shields.io/packagist/v/erag/laravel-pwa?label=Stable)](https://packagist.org/packages/erag/laravel-pwa)
+[![Laravel Compatibility](https://badge.laravel.cloud/badge/erag/laravel-pwa)](https://packagist.org/packages/erag/laravel-pwa)
 [![Total Downloads](https://img.shields.io/packagist/dt/erag/laravel-pwa.svg?label=Downloads)](https://packagist.org/packages/erag/laravel-pwa)
 
 </div>
