@@ -22,8 +22,10 @@
     ],
     "require": {
         "php": ">=8.0.0",
-        "laravel/pint": "^1.13",
         "illuminate/support": "^8.12|^9.0|^10.0|^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.13"
     },
     "autoload": {
         "files": [
@@ -32,6 +34,11 @@
         "psr-4": {
             "EragLaravelPwa\\": "src/"
         }
+    },
+    "scripts": {
+        "lint": [
+            "pint --parallel"
+        ]
     },
     "prefer-stable": true,
     "extra": {

@@ -89,6 +89,14 @@ After changing `config/pwa.php`, regenerate the published manifest:
 php artisan erag:update-manifest
 ```
 
+## Logo And Icon Path
+
+The manifest icon `src` value is a public-relative path. The default `src` value of `logo.png` expects the file at `public/logo.png`.
+
+If `src` is changed to `images/app-icon.png`, the file must exist at `public/images/app-icon.png` before regenerating `public/manifest.json`.
+
+The `@PwaHead` and `@RegisterServiceWorkerScript` directives use the configured `manifest.icons[0].src` path. The built-in `EragLaravelPwa\Core\PWA::processLogo($request)` helper saves uploaded logos to `public/logo.png`.
+
 ## Runtime Manifest Update
 
 Use the facade to write a new `public/manifest.json` at runtime:

@@ -120,6 +120,10 @@ You can update your PWA manifest file by running:
 php artisan erag:update-manifest
 ```
 
+### Logo Path
+
+The logo file name is fixed as `logo.png`, so it must exist at `public/logo.png`.
+
 ## Usage 🛠️
 
 To integrate PWA functionality into your layouts, use the provided Blade directives.
@@ -283,6 +287,5 @@ Here’s a simple example of how to use this package:
 3. Add the `@PwaHead` directive in your layout file’s `<head>`.
 4. Add the `@RegisterServiceWorkerScript` directive before the closing `</body>` tag.
 5. Customize the `config/pwa.php` to fit your project’s needs.
-6. Run `php artisan erag:pwa-update-manifest` to update the manifest file.
+6. Run `php artisan erag:update-manifest` to update the manifest file.
 7. That's it! Your Laravel app is now PWA-enabled. 🚀
-
