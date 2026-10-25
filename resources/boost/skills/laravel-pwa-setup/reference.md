@@ -64,7 +64,7 @@ return [
         'name' => 'Laravel PWA',
         'short_name' => 'LPT',
         'background_color' => '#6777ef',
-        'display' => 'fullscreen',
+        'display' => 'standalone',
         'description' => 'A Progressive Web Application setup for Laravel projects.',
         'theme_color' => '#6777ef',
         'icons' => [
@@ -108,7 +108,7 @@ PWA::update([
     'name' => 'Laravel Apps',
     'short_name' => 'LA',
     'background_color' => '#6777ef',
-    'display' => 'fullscreen',
+    'display' => 'standalone',
     'description' => 'A Progressive Web Application setup for Laravel projects.',
     'theme_color' => '#6777ef',
     'icons' => [

@@ -24,7 +24,7 @@ class PWACommand extends Command
                 'name' => 'Laravel PWA',
                 'short_name' => 'LPT',
                 'background_color' => '#000000',
-                'display' => 'fullscreen',
+                'display' => 'standalone',
                 'description' => 'A Progressive Web Application setup for Laravel projects.',
                 'theme_color' => '#000000',
                 'icons' => [

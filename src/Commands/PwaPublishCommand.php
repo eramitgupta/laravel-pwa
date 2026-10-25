@@ -30,7 +30,7 @@ class PwaPublishCommand extends Command
             '--tag' => 'erag:publish-pwa-config',
             '--force' => true,
         ]);
-        $this->info('manifest.json file is published ✔');
+        $this->info('config/pwa.php file is published ✔');
 
         // Step 2: Publish the manifest
         $this->call('vendor:publish', [

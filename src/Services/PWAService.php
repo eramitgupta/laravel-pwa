@@ -10,7 +10,7 @@ class PWAService
     public function HeadTag(): string
     {
         $manifest = asset('/manifest.json');
-        $themeColor = config('pwa.manifest.theme_color', '#6777ef');
+        $themeColor = e(config('pwa.manifest.theme_color', '#6777ef'));
         $appName = e(config('pwa.manifest.name', config('app.name', 'Laravel PWA')));
         $icon = asset($this->getPrimaryIconPath());
         $installButton = config('pwa.install-button', false);
@@ -33,7 +33,10 @@ class PWAService
 
     public function RegisterServiceWorkerScript(): string
     {
-        $swPath = asset('/sw.js');
+        // A service worker must come from the page's own origin, so use url() rather than
+        // asset() (ASSET_URL may point at a CDN), and scope it to the app's base path.
+        $swPath = url('sw.js');
+        $scope = rtrim((string) parse_url(url('/'), PHP_URL_PATH), '/').'/';
         $isDebug = config('pwa.debug', false);
 
         $consoleLog = $isDebug ? 'console.log' : '//';
@@ -52,7 +55,7 @@ class PWAService
         <script {$isLivewire}>
             "use strict";
             if ("serviceWorker" in navigator) {
-                navigator.serviceWorker.register("{$swPath}", { scope: "/" }).then(
+                const registerServiceWorker = () => navigator.serviceWorker.register("{$swPath}", { scope: "{$scope}" }).then(
                     (registration) => {
                         {$consoleLog}("Service worker registration succeeded:");
                     },
@@ -60,6 +63,12 @@ class PWAService
                         {$consoleLog}("Service worker registration failed", error);
                     }
                 );
+
+                if (document.readyState === "complete") {
+                    registerServiceWorker();
+                } else {
+                    window.addEventListener("load", registerServiceWorker, { once: true });
+                }
             } else {
                 {$consoleLog}("Service workers are not supported.");
             }
@@ -69,10 +78,16 @@ class PWAService
         HTML;
     }
 
+    /**
+     * Chrome and Edge (Windows, macOS, Android) fire `beforeinstallprompt`, so the
+     * button opens the browser's install dialog. Safari has no such event: on
+     * iPhone/iPad the user adds the app from the Share menu, and on macOS
+     * (Safari 17+) from File > Add to Dock, so those users get a short tip instead.
+     */
     private static function installButtonJs(): string
     {
         return <<<'HTML'
-            const installPrompt=document.getElementById("install-prompt");const installButton=document.getElementById("install-button");if(installPrompt&&installButton){let deferredPrompt;const isStandalone=()=>window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;const isIos=()=>/iphone|ipad|ipod/i.test(window.navigator.userAgent);const isSafari=()=>{const ua=window.navigator.userAgent.toLowerCase();return ua.includes("safari")&&!ua.includes("chrome")&&!ua.includes("android")};const showInstallPromotion=()=>{installPrompt.style.display="block";installPrompt.setAttribute("data-mode","install")};const showIosInstructions=()=>{installPrompt.style.display="block";installPrompt.setAttribute("data-mode","ios")};window.addEventListener("load",()=>{if(isStandalone()){installPrompt.style.display="none";return}if(isIos()&&isSafari()){showIosInstructions()}});window.addEventListener("beforeinstallprompt",e=>{deferredPrompt=e;showInstallPromotion()});installButton.addEventListener("click",()=>{if(deferredPrompt&&typeof deferredPrompt.prompt==="function"){deferredPrompt.prompt();deferredPrompt.userChoice.finally(()=>{deferredPrompt=null})}else if(isIos()&&isSafari()&&!isStandalone()){showIosInstructions()}});window.addEventListener("appinstalled",()=>{installPrompt.style.display="none"})}
+            const installPrompt=document.getElementById("install-prompt");const installButton=document.getElementById("install-button");if(installPrompt&&installButton){let deferredPrompt=null;const ua=navigator.userAgent;const displayModes=["standalone","fullscreen","minimal-ui","window-controls-overlay"];const isStandalone=()=>navigator.standalone===true||displayModes.some(mode=>window.matchMedia("(display-mode: "+mode+")").matches);const isIpadOs=()=>/macintosh/i.test(ua)&&navigator.maxTouchPoints>1;const isIosSafari=()=>(/iphone|ipad|ipod/i.test(ua)||isIpadOs())&&/safari/i.test(ua)&&!/chrome|android/i.test(ua);const safariVersion=()=>parseInt((ua.match(/version\/(\d+)/i)||[])[1]||"0",10);const isMacSafari=()=>/macintosh/i.test(ua)&&!isIpadOs()&&/safari/i.test(ua)&&!/chrome|chromium|crios|edg|opr|firefox|android/i.test(ua)&&safariVersion()>=17;const manualInstallMode=()=>isIosSafari()?"ios":isMacSafari()?"macos":null;const show=mode=>{installPrompt.setAttribute("data-mode",mode);installPrompt.style.display="block"};const hide=()=>{installPrompt.style.display="none"};const init=()=>{if(isStandalone()){hide();return}const mode=manualInstallMode();if(mode){show(mode)}};if(document.readyState==="complete"){init()}else{window.addEventListener("load",init,{once:true})}window.addEventListener("beforeinstallprompt",e=>{deferredPrompt=e;show("install")});installButton.addEventListener("click",()=>{if(deferredPrompt){const promptEvent=deferredPrompt;deferredPrompt=null;promptEvent.prompt();promptEvent.userChoice.finally(hide);return}const mode=manualInstallMode();if(mode&&!isStandalone()){show(mode)}});window.addEventListener("appinstalled",()=>{deferredPrompt=null;hide()})}
         HTML;
     }
 
@@ -81,7 +96,7 @@ class PWAService
         if ($installButton) {
             return <<<'HTML'
                 <style>
-                    .box-icon{position:fixed;bottom:24px;right:24px;z-index:2147483647;max-width:min(320px,calc(100vw - 32px))}.box-icon .circle{cursor:pointer;width:60px;height:60px;background-color:transparent;border:0;border-radius:100%;position:relative;display:flex;align-items:center;justify-content:center;padding:0;transition:transform ease-out .1s,background .2s}.box-icon .circle img{max-width:30px;max-height:30px}.box-icon .circle:after{position:absolute;width:100%;height:100%;border-radius:50%;content:'';top:0;left:0;z-index:-1;animation:shadow-pulse 1s infinite;box-shadow:0 0 0 0 rgb(193 54 1 / 40%)}.box-icon .ios-tip{display:none;margin-top:12px;padding:12px 14px;border-radius:12px;background:#fff;color:#111;font-size:13px;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.12)}.box-icon[data-mode="ios"] .ios-tip{display:block}.box-icon[data-mode="install"] .ios-tip{display:none}@media (max-width:640px){.box-icon{bottom:16px;right:16px;max-width:calc(100vw - 24px)}.box-icon .circle{width:56px;height:56px}}@keyframes shadow-pulse{0%{box-shadow:0 0 0 0 rgb(240,240,240)}100%{box-shadow:0 0 0 35px rgba(0,0,0,0)}}@keyframes shadow-pulse-big{0%{box-shadow:0 0 0 0 rgb(240,240,240)}100%{box-shadow:0 0 0 70px rgba(0,0,0,0)}}
+                    .box-icon{position:fixed;bottom:24px;right:24px;z-index:2147483647;max-width:min(320px,calc(100vw - 32px))}.box-icon .circle{cursor:pointer;width:60px;height:60px;background-color:transparent;border:0;border-radius:100%;position:relative;display:flex;align-items:center;justify-content:center;padding:0;transition:transform ease-out .1s,background .2s}.box-icon .circle img{max-width:30px;max-height:30px}.box-icon .circle:after{position:absolute;width:100%;height:100%;border-radius:50%;content:'';top:0;left:0;z-index:-1;animation:shadow-pulse 1s infinite;box-shadow:0 0 0 0 rgb(193 54 1 / 40%)}.box-icon .ios-tip,.box-icon .mac-tip{display:none;margin-top:12px;padding:12px 14px;border-radius:12px;background:#fff;color:#111;font-size:13px;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.12)}.box-icon[data-mode="ios"] .ios-tip,.box-icon[data-mode="macos"] .mac-tip{display:block}@media (max-width:640px){.box-icon{bottom:16px;right:16px;max-width:calc(100vw - 24px)}.box-icon .circle{width:56px;height:56px}}@keyframes shadow-pulse{0%{box-shadow:0 0 0 0 rgb(240,240,240)}100%{box-shadow:0 0 0 35px rgba(0,0,0,0)}}@keyframes shadow-pulse-big{0%{box-shadow:0 0 0 0 rgb(240,240,240)}100%{box-shadow:0 0 0 70px rgba(0,0,0,0)}}
                 </style>
             HTML;
         }
@@ -98,6 +113,7 @@ class PWAService
                         <img src="{$icon}" alt="Install App">
                     </button>
                     <div class="ios-tip">To install on iPhone or iPad, tap Share in Safari, then choose Add to Home Screen.</div>
+                    <div class="mac-tip">To install on your Mac, open the File menu in Safari and choose Add to Dock.</div>
                 </div>
             HTML;
         }
@@ -118,11 +134,17 @@ class PWAService
 
     public function createOrUpdate(array $manifest): bool
     {
+        if (empty($manifest['icons'])) {
+            throw new RuntimeException('Manifest is missing icons. Add at least one 512x512 PNG icon.');
+        }
+
         unset($manifest['start_url']);
         $icons = $manifest['icons'];
         unset($manifest['icons']);
 
-        $arrayMergeManifest = array_merge($manifest, ['start_url' => '/'], ['icons' => $icons]);
+        // `id` and `scope` default to the app root, which matches how browsers already identify
+        // the installed app, so existing installs keep working. Values from the config win.
+        $arrayMergeManifest = array_merge(['id' => '/', 'scope' => '/'], $manifest, ['start_url' => '/'], ['icons' => $icons]);
 
         $jsonData = json_encode($arrayMergeManifest, JSON_PRETTY_PRINT);
         if ($jsonData === false) {
